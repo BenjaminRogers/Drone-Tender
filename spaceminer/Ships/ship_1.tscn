@@ -1,0 +1,21 @@
+[gd_scene load_steps=3 format=3 uid="uid://bel4yswwdqdmk"]
+
+[ext_resource type="Script" uid="uid://dlnbf0u4v7t0w" path="res://Ships/ship.gd" id="1_386x3"]
+[ext_resource type="Texture2D" uid="uid://c2sf77v7jdvqj" path="res://Ships/Sprites/Ship1Sprite.png" id="2_3j2h8"]
+
+[node name="Ship1Root" type="CharacterBody2D"]
+collision_mask = 2
+script = ExtResource("1_386x3")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_3j2h8")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+position = Vector2(15, 0)
+polygon = PackedVector2Array(0, 0, -30, 15, -22, 0, -30, -15)
+
+[node name="Camera2D" type="Camera2D" parent="."]
+
+[node name="AimOrigin" type="Marker2D" parent="."]
+unique_name_in_owner = true
+position = Vector2(16, 0)

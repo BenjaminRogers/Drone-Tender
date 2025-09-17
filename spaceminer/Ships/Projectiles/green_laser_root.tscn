@@ -1,0 +1,23 @@
+[gd_scene load_steps=4 format=3 uid="uid://dus81mwa5sfry"]
+
+[ext_resource type="Texture2D" uid="uid://btmqqfmrsnrq0" path="res://Ships/Sprites/green_laser_sprite.png" id="1_8ckxr"]
+[ext_resource type="Script" uid="uid://bd2v2j7vjqc11" path="res://Ships/Projectiles/projectile.gd" id="1_hso3b"]
+
+[sub_resource type="SegmentShape2D" id="SegmentShape2D_hso3b"]
+b = Vector2(5, 0)
+
+[node name="GreenLaserRoot" type="Area2D"]
+top_level = true
+collision_mask = 2
+script = ExtResource("1_hso3b")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(6, 0)
+texture = ExtResource("1_8ckxr")
+offset = Vector2(0, 0.5)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+scale = Vector2(1, 0.351155)
+shape = SubResource("SegmentShape2D_hso3b")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

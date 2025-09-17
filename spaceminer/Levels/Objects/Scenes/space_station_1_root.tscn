@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://biqrgq620lk12"]
+
+[ext_resource type="Texture2D" uid="uid://duxe5v71kshrc" path="res://Levels/Objects/Sprites/Spacestation1Sprite.png" id="1_o2o5h"]
+
+[node name="SpaceStation1Root" type="Node2D"]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_o2o5h")
