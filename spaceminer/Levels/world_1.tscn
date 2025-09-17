@@ -24,3 +24,5 @@ position = Vector2(574, 320)
 
 [node name="SpaceStation1Root" parent="." instance=ExtResource("3_oy40b")]
 position = Vector2(471, 313)
+
+[node name="SubViewport" type="SubViewport" parent="."]
