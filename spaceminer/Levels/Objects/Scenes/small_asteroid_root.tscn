@@ -1,0 +1,22 @@
+[gd_scene load_steps=4 format=3 uid="uid://b0haaatn34hdh"]
+
+[ext_resource type="Script" uid="uid://b21ukmd7bvw2p" path="res://small_asteroid.gd" id="1_8rbqu"]
+[ext_resource type="Texture2D" uid="uid://dfmghqcml53cc" path="res://Levels/Sprites/Asteroids/meteorBrown_small1.png" id="2_rg1nq"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_46yr2"]
+radius = 11.0
+height = 22.0
+
+[node name="SmallAsteroidRoot" type="RigidBody2D"]
+collision_layer = 3
+gravity_scale = 0.0
+script = ExtResource("1_8rbqu")
+
+[node name="MeteorBrownSmall1" type="Sprite2D" parent="."]
+texture = ExtResource("2_rg1nq")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -1)
+shape = SubResource("CapsuleShape2D_46yr2")
+
+[connection signal="health_depleted" from="." to="." method="break_apart"]

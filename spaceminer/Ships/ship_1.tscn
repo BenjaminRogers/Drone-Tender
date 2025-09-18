@@ -1,10 +1,13 @@
-[gd_scene load_steps=3 format=3 uid="uid://bel4yswwdqdmk"]
+[gd_scene load_steps=5 format=3 uid="uid://bel4yswwdqdmk"]
 
 [ext_resource type="Script" uid="uid://dlnbf0u4v7t0w" path="res://Ships/ship.gd" id="1_386x3"]
 [ext_resource type="Texture2D" uid="uid://c2sf77v7jdvqj" path="res://Ships/Sprites/Ship1Sprite.png" id="2_3j2h8"]
+[ext_resource type="Script" uid="uid://dubknthuk1s2s" path="res://Ships/inventory_ui.gd" id="3_oqpsa"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_3j2h8"]
 
 [node name="Ship1Root" type="CharacterBody2D"]
-collision_mask = 2
+collision_mask = 0
 script = ExtResource("1_386x3")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
@@ -19,3 +22,44 @@ polygon = PackedVector2Array(0, 0, -30, 15, -22, 0, -30, -15)
 [node name="AimOrigin" type="Marker2D" parent="."]
 unique_name_in_owner = true
 position = Vector2(16, 0)
+
+[node name="CollectionArea" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CollectionArea"]
+position = Vector2(10, 0)
+shape = SubResource("CircleShape2D_3j2h8")
+
+[node name="HUDLayer" type="CanvasLayer" parent="."]
+unique_name_in_owner = true
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HUDLayer"]
+offset_top = 606.0
+offset_right = 61.0
+offset_bottom = 646.0
+
+[node name="Label" type="Label" parent="HUDLayer/HBoxContainer"]
+layout_mode = 2
+text = "Speed: "
+
+[node name="Spedometer" type="Label" parent="HUDLayer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="HUDLayer"]
+offset_left = 1026.0
+offset_top = 495.0
+offset_right = 1179.0
+offset_bottom = 646.0
+scale = Vector2(0.812, 1)
+
+[node name="MarginContainer" type="MarginContainer" parent="HUDLayer/PanelContainer"]
+layout_mode = 2
+
+[node name="InventoryUI" type="VBoxContainer" parent="HUDLayer/PanelContainer/MarginContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+script = ExtResource("3_oqpsa")
+
+[connection signal="body_entered" from="CollectionArea" to="." method="add_to_inventory"]

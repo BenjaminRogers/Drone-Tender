@@ -4,10 +4,11 @@
 [ext_resource type="Texture2D" uid="uid://ceqmfr4hnnuce" path="res://Levels/Sprites/Asteroids/meteorBrown_tiny1.png" id="1_x4lyr"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_46yr2"]
-radius = 7.0
-height = 14.0
+radius = 11.0
+height = 22.0
 
 [node name="TinyAsteroidRoot" type="RigidBody2D"]
+collision_layer = 7
 gravity_scale = 0.0
 script = ExtResource("1_vr6x5")
 

@@ -7,7 +7,26 @@ var max_projectiles: int = 3
 var previous_position: Vector2
 var speed_vector: Vector2
 var actual_speed: float = 0
-
+var max_speed = 800
+var max_weight:int = 100
+var current_weight: int = 0
+var inventory: Dictionary[String, int]
+func add_to_inventory(resource_node):
+	var additional_value = resource_node.amount
+	if additional_value + current_weight > max_weight:
+		FloatingText.display_text("Inventory full!", global_position)
+	elif inventory.has(resource_node.resource_type):
+		var current_value = inventory.get(resource_node.resource_type)
+		current_value += additional_value
+		inventory[resource_node.resource_type] = current_value
+		current_weight += resource_node.amount
+		resource_node.queue_free()
+		%InventoryUI.update_ui(inventory)
+	elif not inventory.has(resource_node.resource_type):
+		inventory.set(resource_node.resource_type, additional_value)
+		current_weight += resource_node.amount
+		resource_node.queue_free()
+		%InventoryUI.update_ui(inventory)
 func fire_projectile(projectile: Resource) -> void:
 	var projectile_instance = projectile.instantiate()
 	%AimOrigin.add_child(projectile_instance)
@@ -30,11 +49,14 @@ func _physics_process(delta: float) -> void:
 	
 	#Determine ship's current global speed
 	speed_vector = (global_position - previous_position) / delta
-	actual_speed = abs(speed_vector.x + speed_vector.y)
+	actual_speed = round(abs(speed_vector.x + speed_vector.y))
 	previous_position = global_position
+	%Spedometer.text = str(actual_speed)
 	#
 	move_and_slide()
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("shoot"):
 		if %AimOrigin.get_child_count() < max_projectiles:
 			fire_projectile(projectile_scene)
+	if event.is_action_pressed("debug"):
+		print(inventory)#FloatingText.display_text("Inventory full!", global_position)

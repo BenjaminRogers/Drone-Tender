@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://boomig0fm0263"]
+[gd_scene load_steps=6 format=3 uid="uid://boomig0fm0263"]
 
 [ext_resource type="PackedScene" uid="uid://bel4yswwdqdmk" path="res://Ships/ship_1.tscn" id="1_0pcov"]
 [ext_resource type="Texture2D" uid="uid://453v3dpe6klu" path="res://Levels/Sprites/space_background_1.png" id="1_s0jy6"]
 [ext_resource type="PackedScene" uid="uid://biqrgq620lk12" path="res://Levels/Objects/Scenes/space_station_1_root.tscn" id="3_oy40b"]
 [ext_resource type="PackedScene" uid="uid://b2776j8ftk1i5" path="res://Levels/Objects/Scenes/tiny_asteroid.tscn" id="4_wpq67"]
+[ext_resource type="PackedScene" uid="uid://b0haaatn34hdh" path="res://Levels/Objects/Scenes/small_asteroid_root.tscn" id="5_w8bc6"]
 
 [node name="World1" type="Node2D"]
 
@@ -26,17 +27,23 @@ position = Vector2(574, 320)
 [node name="SpaceStation1Root" parent="." instance=ExtResource("3_oy40b")]
 position = Vector2(471, 313)
 
-[node name="TinyAsteroid" parent="." instance=ExtResource("4_wpq67")]
-position = Vector2(735, 315)
+[node name="AsteroidContainer" type="Node2D" parent="."]
 
-[node name="TinyAsteroid2" parent="." instance=ExtResource("4_wpq67")]
+[node name="TinyAsteroid" parent="AsteroidContainer" instance=ExtResource("4_wpq67")]
+position = Vector2(735, 315)
+resource_type = "Silver"
+
+[node name="TinyAsteroid2" parent="AsteroidContainer" instance=ExtResource("4_wpq67")]
 position = Vector2(639, 365)
 
-[node name="TinyAsteroid3" parent="." instance=ExtResource("4_wpq67")]
+[node name="TinyAsteroid3" parent="AsteroidContainer" instance=ExtResource("4_wpq67")]
 position = Vector2(656, 290)
 
-[node name="TinyAsteroid4" parent="." instance=ExtResource("4_wpq67")]
+[node name="TinyAsteroid4" parent="AsteroidContainer" instance=ExtResource("4_wpq67")]
 position = Vector2(698, 339)
 
-[node name="TinyAsteroid5" parent="." instance=ExtResource("4_wpq67")]
+[node name="TinyAsteroid5" parent="AsteroidContainer" instance=ExtResource("4_wpq67")]
 position = Vector2(706, 280)
+
+[node name="SmallAsteroidRoot" parent="AsteroidContainer" instance=ExtResource("5_w8bc6")]
+position = Vector2(626, 247)
