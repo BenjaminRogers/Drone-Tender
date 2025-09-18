@@ -7,20 +7,15 @@ var max_projectiles: int = 3
 var previous_position: Vector2
 var speed_vector: Vector2
 var actual_speed: float = 0
+
 func fire_projectile(projectile: Resource) -> void:
 	var projectile_instance = projectile.instantiate()
 	%AimOrigin.add_child(projectile_instance)
 	projectile_instance.global_position = %AimOrigin.global_position
 	projectile_instance.global_rotation = %AimOrigin.global_rotation
 	#projectile_instance.speed += abs(velocity.x + velocity.y)
+	
 func _physics_process(delta: float) -> void:
-	# Get the input direction and handle the movement/deceleration.
-	# As good practice, you should replace UI actions with custom gameplay actions.
-	#var direction := Input.get_axis("ui_left", "ui_right")
-	#if direction:
-		#velocity.x = direction * SPEED
-	#else:
-		#velocity.x = move_toward(velocity.x, 0, SPEED)
 	var direction_input = Input.get_axis("backwards", "forward")
 	var rotation_input = Input.get_axis("rotate_left", "rotate_right")
 	var lateral_input = Input.get_axis("lateral_left", "lateral_right")

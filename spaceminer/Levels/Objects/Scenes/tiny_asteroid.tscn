@@ -1,0 +1,19 @@
+[gd_scene load_steps=4 format=3 uid="uid://b2776j8ftk1i5"]
+
+[ext_resource type="Script" uid="uid://dlt7aop3geg0a" path="res://Levels/Objects/Scripts/tiny_asteroid.gd" id="1_vr6x5"]
+[ext_resource type="Texture2D" uid="uid://ceqmfr4hnnuce" path="res://Levels/Sprites/Asteroids/meteorBrown_tiny1.png" id="1_x4lyr"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_46yr2"]
+radius = 7.0
+height = 14.0
+
+[node name="TinyAsteroidRoot" type="RigidBody2D"]
+gravity_scale = 0.0
+script = ExtResource("1_vr6x5")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+texture = ExtResource("1_x4lyr")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CapsuleShape2D_46yr2")
