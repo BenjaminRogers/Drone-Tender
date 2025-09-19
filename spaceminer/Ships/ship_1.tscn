@@ -1,10 +1,13 @@
-[gd_scene load_steps=7 format=3 uid="uid://bel4yswwdqdmk"]
+[gd_scene load_steps=10 format=3 uid="uid://bel4yswwdqdmk"]
 
 [ext_resource type="Script" uid="uid://dlnbf0u4v7t0w" path="res://Ships/ship.gd" id="1_386x3"]
 [ext_resource type="Texture2D" uid="uid://c2sf77v7jdvqj" path="res://Ships/Sprites/Ship1Sprite.png" id="2_3j2h8"]
 [ext_resource type="Script" uid="uid://dubknthuk1s2s" path="res://Ships/inventory_ui.gd" id="3_oqpsa"]
+[ext_resource type="Script" uid="uid://bxfrei3wy4pyx" path="res://Ships/pause_menu.gd" id="4_cbbn5"]
 [ext_resource type="AudioStream" uid="uid://cfk0lcsn4r3l2" path="res://Ships/Sounds/laserShoot.wav" id="4_jdu3k"]
 [ext_resource type="AudioStream" uid="uid://bkvnvc1aey552" path="res://Ships/Sounds/laserConnect.wav" id="4_p2guy"]
+[ext_resource type="AudioStream" uid="uid://8754tfwdt2db" path="res://Ships/Sounds/Collision.wav" id="7_lm01v"]
+[ext_resource type="AudioStream" uid="uid://mjs8lbkgghsx" path="res://Ships/Sounds/pickupResource.wav" id="8_fhuo7"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_3j2h8"]
 
@@ -109,6 +112,35 @@ unique_name_in_owner = true
 layout_mode = 2
 text = "0.0"
 
+[node name="PauseMenu" type="Control" parent="HUDLayer"]
+unique_name_in_owner = true
+process_mode = 3
+visible = false
+layout_mode = 3
+anchors_preset = 0
+offset_left = 553.0
+offset_top = 306.0
+offset_right = 593.0
+offset_bottom = 346.0
+script = ExtResource("4_cbbn5")
+
+[node name="PanelContainer" type="PanelContainer" parent="HUDLayer/PauseMenu"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="MarginContainer" type="MarginContainer" parent="HUDLayer/PauseMenu/PanelContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HUDLayer/PauseMenu/PanelContainer/MarginContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="ResumeButton" type="Button" parent="HUDLayer/PauseMenu/PanelContainer/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Resume"
+
 [node name="FiredSound" type="AudioStreamPlayer2D" parent="."]
 unique_name_in_owner = true
 stream = ExtResource("4_jdu3k")
@@ -117,4 +149,13 @@ stream = ExtResource("4_jdu3k")
 unique_name_in_owner = true
 stream = ExtResource("4_p2guy")
 
+[node name="CollisionSound" type="AudioStreamPlayer2D" parent="."]
+unique_name_in_owner = true
+stream = ExtResource("7_lm01v")
+
+[node name="ResourceCollectionSound" type="AudioStreamPlayer2D" parent="."]
+unique_name_in_owner = true
+stream = ExtResource("8_fhuo7")
+
 [connection signal="body_entered" from="CollectionArea" to="." method="add_to_inventory"]
+[connection signal="pressed" from="HUDLayer/PauseMenu/PanelContainer/MarginContainer/VBoxContainer/ResumeButton" to="HUDLayer/PauseMenu" method="unpause"]

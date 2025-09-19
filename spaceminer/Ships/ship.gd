@@ -18,23 +18,27 @@ var collision_leeway: float = 100.0
 var collision_damage: float = .05
 func repair(cost: float) -> void:
 	var repairs_needed = max_health - current_health
-	var total_cost = repairs_needed * cost
+	var total_cost = snappedf(repairs_needed * cost, .01)
 	if total_cost < credits:
 		credits -= total_cost
 		FloatingText.display_text(str("Repair cost: ", total_cost), global_position, "RED")
 		current_health = max_health
 		update_credits()
 		%HealthBar.value = current_health
+	elif credits < cost:
+		FloatingText.display_text(str("Insufficient funds!"), global_position, "RED")
 	else:
 		var partial_repair = snappedf((credits / cost), .01)
 		var leftover_credits = snappedf((fmod(credits, cost)), .01)
-		FloatingText.display_text(str("Repair cost: ", credits - leftover_credits), global_position, "RED")
+		var repair_cost = snappedf((credits - leftover_credits), .01)
+		FloatingText.display_text(str("Repair cost: ", repair_cost), global_position, "RED")
 		current_health += partial_repair
 		credits = snappedf(leftover_credits, .01)
 		update_credits()
 		%HealthBar.value = current_health
 func take_collision_damage() -> void:
 	if actual_speed > collision_leeway:
+		%CollisionSound.play()
 		var collision_speed = actual_speed - collision_leeway
 		FloatingText.display_text((collision_speed * collision_damage), global_position, "RED")
 		current_health -= collision_speed * collision_damage
@@ -57,12 +61,14 @@ func add_to_inventory(resource_node):
 		resource_node.queue_free()
 		FloatingText.display_text(str(resource_node.resource_type, " ", resource_node.amount), global_position)
 		%InventoryUI.update_ui(inventory)
+		%ResourceCollectionSound.play()
 	elif not inventory.has(resource_node.resource_type):
 		inventory.set(resource_node.resource_type, additional_value)
 		current_weight += resource_node.amount
 		resource_node.queue_free()
-		%InventoryUI.update_ui(inventory)
 		FloatingText.display_text(str(resource_node.resource_type, " ", resource_node.amount), global_position)
+		%InventoryUI.update_ui(inventory)
+		%ResourceCollectionSound.play()
 func fire_projectile(projectile: Resource) -> void:
 	var projectile_instance = projectile.instantiate()
 	%AimOrigin.add_child(projectile_instance)
@@ -92,6 +98,9 @@ func _physics_process(delta: float) -> void:
 	%Spedometer.text = str(actual_speed)
 	#
 	move_and_slide()
+func pause() -> void:
+	get_tree().paused = true
+	%PauseMenu.paused()
 func _ready() -> void:
 	%HealthBar.value = current_health
 	%HealthBar.max_value = max_health
@@ -101,3 +110,5 @@ func _input(event: InputEvent) -> void:
 			fire_projectile(projectile_scene)
 	if event.is_action_pressed("debug"):
 		print(inventory)#FloatingText.display_text("Inventory full!", global_position)
+	if event.is_action_pressed("pause"):
+		pause()
