@@ -4,7 +4,7 @@ const ROTATION_SPEED: float = 3
 const ACCELERATION: float = 5
 const LATERAL_SPEED: float = .1
 var max_health: float = 100
-var current_health: float = 50
+var current_health: float = 100
 var credits: float = 0.0
 var max_projectiles: int = 3
 var previous_position: Vector2
@@ -16,11 +16,29 @@ var current_weight: int = 0
 var inventory: Dictionary[String, int]
 var collision_leeway: float = 100.0
 var collision_damage: float = .05
+func repair(cost: float) -> void:
+	var repairs_needed = max_health - current_health
+	var total_cost = repairs_needed * cost
+	if total_cost < credits:
+		credits -= total_cost
+		FloatingText.display_text(str("Repair cost: ", total_cost), global_position, "RED")
+		current_health = max_health
+		update_credits()
+		%HealthBar.value = current_health
+	else:
+		var partial_repair = snappedf((credits / cost), .01)
+		var leftover_credits = snappedf((fmod(credits, cost)), .01)
+		FloatingText.display_text(str("Repair cost: ", credits - leftover_credits), global_position, "RED")
+		current_health += partial_repair
+		credits = snappedf(leftover_credits, .01)
+		update_credits()
+		%HealthBar.value = current_health
 func take_collision_damage() -> void:
-	var collision_speed = actual_speed - collision_leeway
-	FloatingText.display_text((collision_speed * collision_damage), global_position, "RED")
-	current_health -= collision_speed * collision_damage
-	%HealthBar.value = current_health
+	if actual_speed > collision_leeway:
+		var collision_speed = actual_speed - collision_leeway
+		FloatingText.display_text((collision_speed * collision_damage), global_position, "RED")
+		current_health -= collision_speed * collision_damage
+		%HealthBar.value = current_health
 func update_credits() -> void:
 	%CreditsLabel.text = str(credits)
 func clear_inventory() -> void:
@@ -48,10 +66,12 @@ func add_to_inventory(resource_node):
 func fire_projectile(projectile: Resource) -> void:
 	var projectile_instance = projectile.instantiate()
 	%AimOrigin.add_child(projectile_instance)
+	%FiredSound.play()
 	projectile_instance.global_position = %AimOrigin.global_position
 	projectile_instance.global_rotation = %AimOrigin.global_rotation
 	#projectile_instance.speed += abs(velocity.x + velocity.y)
-	
+func _on_projectile_connect() -> void:
+	%ConnectSound.play()
 func _physics_process(delta: float) -> void:
 	var direction_input = Input.get_axis("backwards", "forward")
 	var rotation_input = Input.get_axis("rotate_left", "rotate_right")

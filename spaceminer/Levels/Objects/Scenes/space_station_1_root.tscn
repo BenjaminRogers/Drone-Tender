@@ -1,23 +1,61 @@
-[gd_scene load_steps=4 format=3 uid="uid://biqrgq620lk12"]
+[gd_scene load_steps=9 format=3 uid="uid://biqrgq620lk12"]
 
 [ext_resource type="Script" uid="uid://bp61gi12xbgar" path="res://Levels/Objects/Scenes/space_station.gd" id="1_d60ge"]
-[ext_resource type="Texture2D" uid="uid://duxe5v71kshrc" path="res://Levels/Objects/Sprites/Spacestation1Sprite.png" id="1_o2o5h"]
+[ext_resource type="Texture2D" uid="uid://xnw30k6ydp5g" path="res://Levels/Objects/Sprites/Spacestation1Sprite-sheet.png" id="2_d60ge"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_g3ayh"]
+atlas = ExtResource("2_d60ge")
+region = Rect2(0, 0, 64, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jm60d"]
+atlas = ExtResource("2_d60ge")
+region = Rect2(64, 0, 64, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_r7y15"]
+atlas = ExtResource("2_d60ge")
+region = Rect2(128, 0, 64, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tdcgp"]
+atlas = ExtResource("2_d60ge")
+region = Rect2(192, 0, 64, 128)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_8apgo"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_g3ayh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jm60d")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_r7y15")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tdcgp")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_g3ayh"]
 radius = 9.0
-height = 62.0
+height = 104.0
 
 [node name="SpaceStation1Root" type="Node2D"]
 script = ExtResource("1_d60ge")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-texture = ExtResource("1_o2o5h")
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_8apgo")
+autoplay = "default"
+frame_progress = 0.899869
 
-[node name="DepositArea" type="Area2D" parent="."]
+[node name="DepositArea" type="Area2D" parent="AnimatedSprite2D"]
 unique_name_in_owner = true
 collision_layer = 0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="DepositArea"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AnimatedSprite2D/DepositArea"]
 shape = SubResource("CapsuleShape2D_g3ayh")
 
-[connection signal="body_entered" from="DepositArea" to="." method="buy_resources"]
+[connection signal="body_entered" from="AnimatedSprite2D/DepositArea" to="." method="buy_resources"]

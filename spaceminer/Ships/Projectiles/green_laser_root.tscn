@@ -1,7 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://dus81mwa5sfry"]
+[gd_scene load_steps=6 format=3 uid="uid://dus81mwa5sfry"]
 
 [ext_resource type="Texture2D" uid="uid://btmqqfmrsnrq0" path="res://Ships/Sprites/green_laser_sprite.png" id="1_8ckxr"]
 [ext_resource type="Script" uid="uid://bd2v2j7vjqc11" path="res://Ships/Projectiles/projectile.gd" id="1_hso3b"]
+[ext_resource type="AudioStream" uid="uid://cfk0lcsn4r3l2" path="res://Ships/Sounds/laserShoot.wav" id="3_dnfti"]
+[ext_resource type="AudioStream" uid="uid://bkvnvc1aey552" path="res://Ships/Sounds/laserConnect.wav" id="4_1avis"]
 
 [sub_resource type="SegmentShape2D" id="SegmentShape2D_hso3b"]
 b = Vector2(5, 0)
@@ -19,5 +21,13 @@ offset = Vector2(0, 0.5)
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 scale = Vector2(1, 0.351155)
 shape = SubResource("SegmentShape2D_hso3b")
+
+[node name="FiredSound" type="AudioStreamPlayer2D" parent="."]
+unique_name_in_owner = true
+stream = ExtResource("3_dnfti")
+
+[node name="ConnectSound" type="AudioStreamPlayer2D" parent="."]
+unique_name_in_owner = true
+stream = ExtResource("4_1avis")
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]

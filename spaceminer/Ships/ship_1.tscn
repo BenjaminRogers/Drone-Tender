@@ -1,8 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://bel4yswwdqdmk"]
+[gd_scene load_steps=7 format=3 uid="uid://bel4yswwdqdmk"]
 
 [ext_resource type="Script" uid="uid://dlnbf0u4v7t0w" path="res://Ships/ship.gd" id="1_386x3"]
 [ext_resource type="Texture2D" uid="uid://c2sf77v7jdvqj" path="res://Ships/Sprites/Ship1Sprite.png" id="2_3j2h8"]
 [ext_resource type="Script" uid="uid://dubknthuk1s2s" path="res://Ships/inventory_ui.gd" id="3_oqpsa"]
+[ext_resource type="AudioStream" uid="uid://cfk0lcsn4r3l2" path="res://Ships/Sounds/laserShoot.wav" id="4_jdu3k"]
+[ext_resource type="AudioStream" uid="uid://bkvnvc1aey552" path="res://Ships/Sounds/laserConnect.wav" id="4_p2guy"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_3j2h8"]
 
@@ -105,6 +107,14 @@ text = "Credits: "
 [node name="CreditsLabel" type="Label" parent="HUDLayer/PanelContainer2/MarginContainer/HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
-text = "0"
+text = "0.0"
+
+[node name="FiredSound" type="AudioStreamPlayer2D" parent="."]
+unique_name_in_owner = true
+stream = ExtResource("4_jdu3k")
+
+[node name="ConnectSound" type="AudioStreamPlayer2D" parent="."]
+unique_name_in_owner = true
+stream = ExtResource("4_p2guy")
 
 [connection signal="body_entered" from="CollectionArea" to="." method="add_to_inventory"]

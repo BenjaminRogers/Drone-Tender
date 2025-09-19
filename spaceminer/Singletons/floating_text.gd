@@ -12,6 +12,7 @@ func display_text(value, position: Vector2, text_color: Color = "#FFF", is_persi
 	text_label.label_settings.font_size = 20
 	text_label.label_settings.outline_color = "#000"
 	text_label.label_settings.outline_size = 10
+	text_label.z_index = 5
 	call_deferred("add_child", text_label)
 	await text_label.resized
 	text_label.global_position.x = position.x - (text_label.size.x / 2)
