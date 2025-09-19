@@ -1,7 +1,24 @@
-[gd_scene load_steps=9 format=3 uid="uid://biqrgq620lk12"]
+[gd_scene load_steps=14 format=3 uid="uid://biqrgq620lk12"]
 
 [ext_resource type="Script" uid="uid://bp61gi12xbgar" path="res://Levels/Objects/Scenes/space_station.gd" id="1_d60ge"]
 [ext_resource type="Texture2D" uid="uid://xnw30k6ydp5g" path="res://Levels/Objects/Sprites/Spacestation1Sprite-sheet.png" id="2_d60ge"]
+[ext_resource type="Texture2D" uid="uid://0i2yukqjnons" path="res://Levels/Objects/Sprites/Spacestation1Sprite-sheet2.png" id="2_g3ayh"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8apgo"]
+atlas = ExtResource("2_g3ayh")
+region = Rect2(0, 0, 64, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rmyii"]
+atlas = ExtResource("2_g3ayh")
+region = Rect2(64, 0, 64, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vwkel"]
+atlas = ExtResource("2_g3ayh")
+region = Rect2(128, 0, 64, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kdanl"]
+atlas = ExtResource("2_g3ayh")
+region = Rect2(192, 0, 64, 128)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_g3ayh"]
 atlas = ExtResource("2_d60ge")
@@ -21,6 +38,23 @@ region = Rect2(192, 0, 64, 128)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_8apgo"]
 animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8apgo")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rmyii")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vwkel")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kdanl")
+}],
+"loop": true,
+"name": &"Updated",
+"speed": 5.0
+}, {
 "frames": [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_g3ayh")
@@ -48,8 +82,9 @@ script = ExtResource("1_d60ge")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_8apgo")
-autoplay = "default"
-frame_progress = 0.899869
+animation = &"Updated"
+autoplay = "Updated"
+frame_progress = 0.602296
 
 [node name="DepositArea" type="Area2D" parent="AnimatedSprite2D"]
 unique_name_in_owner = true

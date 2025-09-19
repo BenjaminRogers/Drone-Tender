@@ -4,7 +4,7 @@ var rand_rotation_range = 5
 var rand_movement_range = 10
 var has_been_hit = false
 var health = 25
-var screen_center = get_viewport_rect().size / 2
+@onready var screen_center = get_viewport_rect().size / 2
 @onready var rand_rotation = Asteroid.randomize_rotation(rand_rotation_range)
 @onready var rand_movement = Asteroid.randomize_movement(rand_movement_range)
 signal health_depleted
@@ -30,7 +30,7 @@ func break_apart() -> void:
 	var quantity: int = randi_range(1, 3)
 	for i in quantity:
 		var new_asteroid = tiny_asteroid.instantiate()
-		parent_node.add_child(new_asteroid)
+		parent_node.call_deferred("add_child",new_asteroid)
 		new_asteroid.global_position = global_position
 	queue_free()
 func _on_body_entered(body: Node) -> void:
