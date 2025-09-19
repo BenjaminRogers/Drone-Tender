@@ -34,16 +34,39 @@ shape = SubResource("CircleShape2D_3j2h8")
 [node name="HUDLayer" type="CanvasLayer" parent="."]
 unique_name_in_owner = true
 
-[node name="HBoxContainer" type="HBoxContainer" parent="HUDLayer"]
-offset_top = 606.0
-offset_right = 61.0
+[node name="PanelContainer3" type="PanelContainer" parent="HUDLayer"]
+offset_left = 1.0
+offset_top = 592.0
+offset_right = 108.0
 offset_bottom = 646.0
 
-[node name="Label" type="Label" parent="HUDLayer/HBoxContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="HUDLayer/PanelContainer3"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HUDLayer/PanelContainer3/MarginContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="HUDLayer/PanelContainer3/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="HUDLayer/PanelContainer3/MarginContainer/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+text = "Hull: "
+
+[node name="HealthBar" type="ProgressBar" parent="HUDLayer/PanelContainer3/MarginContainer/VBoxContainer/HBoxContainer2"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+value = 100.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HUDLayer/PanelContainer3/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="HUDLayer/PanelContainer3/MarginContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 text = "Speed: "
 
-[node name="Spedometer" type="Label" parent="HUDLayer/HBoxContainer"]
+[node name="Spedometer" type="Label" parent="HUDLayer/PanelContainer3/MarginContainer/VBoxContainer/HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 
@@ -61,5 +84,27 @@ layout_mode = 2
 unique_name_in_owner = true
 layout_mode = 2
 script = ExtResource("3_oqpsa")
+
+[node name="PanelContainer2" type="PanelContainer" parent="HUDLayer"]
+offset_left = 1026.0
+offset_top = 466.0
+offset_right = 1179.0
+offset_bottom = 491.0
+scale = Vector2(0.812, 1)
+
+[node name="MarginContainer" type="MarginContainer" parent="HUDLayer/PanelContainer2"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HUDLayer/PanelContainer2/MarginContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="HUDLayer/PanelContainer2/MarginContainer/HBoxContainer"]
+layout_mode = 2
+text = "Credits: "
+
+[node name="CreditsLabel" type="Label" parent="HUDLayer/PanelContainer2/MarginContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "0"
 
 [connection signal="body_entered" from="CollectionArea" to="." method="add_to_inventory"]

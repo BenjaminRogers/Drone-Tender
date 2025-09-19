@@ -1,8 +1,11 @@
 class_name Ship extends CharacterBody2D
 var projectile_scene = preload("res://Ships/Projectiles/green_laser_root.tscn")
-const ROTATION_SPEED: float = .1
-const ACCELERATION: float = 10.0
-const LATERAL_SPEED: float = 1
+const ROTATION_SPEED: float = 3
+const ACCELERATION: float = 5
+const LATERAL_SPEED: float = .1
+var max_health: float = 100
+var current_health: float = 50
+var credits: float = 0.0
 var max_projectiles: int = 3
 var previous_position: Vector2
 var speed_vector: Vector2
@@ -11,6 +14,19 @@ var max_speed = 800
 var max_weight:int = 100
 var current_weight: int = 0
 var inventory: Dictionary[String, int]
+var collision_leeway: float = 100.0
+var collision_damage: float = .05
+func take_collision_damage() -> void:
+	var collision_speed = actual_speed - collision_leeway
+	FloatingText.display_text((collision_speed * collision_damage), global_position, "RED")
+	current_health -= collision_speed * collision_damage
+	%HealthBar.value = current_health
+func update_credits() -> void:
+	%CreditsLabel.text = str(credits)
+func clear_inventory() -> void:
+	inventory = {}
+	current_weight = 0
+	%InventoryUI.update_ui(inventory)
 func add_to_inventory(resource_node):
 	var additional_value = resource_node.amount
 	if additional_value + current_weight > max_weight:
@@ -21,12 +37,14 @@ func add_to_inventory(resource_node):
 		inventory[resource_node.resource_type] = current_value
 		current_weight += resource_node.amount
 		resource_node.queue_free()
+		FloatingText.display_text(str(resource_node.resource_type, " ", resource_node.amount), global_position)
 		%InventoryUI.update_ui(inventory)
 	elif not inventory.has(resource_node.resource_type):
 		inventory.set(resource_node.resource_type, additional_value)
 		current_weight += resource_node.amount
 		resource_node.queue_free()
 		%InventoryUI.update_ui(inventory)
+		FloatingText.display_text(str(resource_node.resource_type, " ", resource_node.amount), global_position)
 func fire_projectile(projectile: Resource) -> void:
 	var projectile_instance = projectile.instantiate()
 	%AimOrigin.add_child(projectile_instance)
@@ -39,21 +57,24 @@ func _physics_process(delta: float) -> void:
 	var rotation_input = Input.get_axis("rotate_left", "rotate_right")
 	var lateral_input = Input.get_axis("lateral_left", "lateral_right")
 	if Input.is_action_pressed("Stop"):
-		velocity = lerp(velocity, Vector2(0, 0), .1)
+		velocity = lerp(velocity, Vector2(0, 0), .03)
 	if direction_input:
 		velocity += transform.x * direction_input * ACCELERATION
-	if rotation_input:
-		rotation += rotation_input * ROTATION_SPEED
+	if rotation_input and rotation_input != 0:
+		rotation += rotation_input * ROTATION_SPEED * delta
 	if lateral_input:
 		velocity += transform.y * lateral_input * ACCELERATION
 	
 	#Determine ship's current global speed
-	speed_vector = (global_position - previous_position) / delta
+	speed_vector = abs(global_position - previous_position) / delta
 	actual_speed = round(abs(speed_vector.x + speed_vector.y))
 	previous_position = global_position
 	%Spedometer.text = str(actual_speed)
 	#
 	move_and_slide()
+func _ready() -> void:
+	%HealthBar.value = current_health
+	%HealthBar.max_value = max_health
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("shoot"):
 		if %AimOrigin.get_child_count() < max_projectiles:

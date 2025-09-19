@@ -8,7 +8,8 @@ radius = 11.0
 height = 22.0
 
 [node name="SmallAsteroidRoot" type="RigidBody2D"]
-collision_layer = 3
+collision_layer = 2
+collision_mask = 7
 gravity_scale = 0.0
 script = ExtResource("1_8rbqu")
 
@@ -19,4 +20,5 @@ texture = ExtResource("2_rg1nq")
 position = Vector2(0, -1)
 shape = SubResource("CapsuleShape2D_46yr2")
 
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
 [connection signal="health_depleted" from="." to="." method="break_apart"]

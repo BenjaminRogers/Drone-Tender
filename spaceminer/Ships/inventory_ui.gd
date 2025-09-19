@@ -13,9 +13,13 @@ func update_ui(dict: Dictionary[String, int]) -> void:
 	inventory = inventory.merged(dict, true)
 	for child in get_child_count():
 		get_child(child).queue_free()
-	for key in inventory:
-		var new_label = Label.new()
-		new_label.label_settings = LabelSettings.new()
-		new_label.text = str(key, ": ", dict.get(key))
-		add_child(new_label)
-		new_label.label_settings.font_size = 25
+	if not dict.is_empty():
+		for key in dict:
+			if dict[key] != null:
+				var new_label = Label.new()
+				new_label.label_settings = LabelSettings.new()
+				new_label.text = str(key, ": ", dict.get(key))
+				add_child(new_label)
+				new_label.label_settings.font_size = 25
+	else:
+		pass

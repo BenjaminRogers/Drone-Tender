@@ -1,14 +1,14 @@
 extends Node
 
 
-func display_text(value, position: Vector2, is_persistent: bool = false):
+func display_text(value, position: Vector2, text_color: Color = "#FFF", is_persistent: bool = false):
 	var text_label = Label.new()
 	text_label.text = str(value)
 	text_label.label_settings = LabelSettings.new()
 	
-	var color = "#FFF"
+	#var color = "#FFF"
 	
-	text_label.label_settings.font_color = color
+	text_label.label_settings.font_color = text_color
 	text_label.label_settings.font_size = 20
 	text_label.label_settings.outline_color = "#000"
 	text_label.label_settings.outline_size = 10

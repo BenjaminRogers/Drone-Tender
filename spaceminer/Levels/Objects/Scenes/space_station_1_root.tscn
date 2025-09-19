@@ -1,8 +1,23 @@
-[gd_scene load_steps=2 format=3 uid="uid://biqrgq620lk12"]
+[gd_scene load_steps=4 format=3 uid="uid://biqrgq620lk12"]
 
+[ext_resource type="Script" uid="uid://bp61gi12xbgar" path="res://Levels/Objects/Scenes/space_station.gd" id="1_d60ge"]
 [ext_resource type="Texture2D" uid="uid://duxe5v71kshrc" path="res://Levels/Objects/Sprites/Spacestation1Sprite.png" id="1_o2o5h"]
 
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_g3ayh"]
+radius = 9.0
+height = 62.0
+
 [node name="SpaceStation1Root" type="Node2D"]
+script = ExtResource("1_d60ge")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("1_o2o5h")
+
+[node name="DepositArea" type="Area2D" parent="."]
+unique_name_in_owner = true
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DepositArea"]
+shape = SubResource("CapsuleShape2D_g3ayh")
+
+[connection signal="body_entered" from="DepositArea" to="." method="buy_resources"]
