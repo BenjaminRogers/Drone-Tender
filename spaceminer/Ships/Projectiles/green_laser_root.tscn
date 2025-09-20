@@ -1,26 +1,108 @@
-[gd_scene load_steps=6 format=3 uid="uid://dus81mwa5sfry"]
+[gd_scene load_steps=17 format=3 uid="uid://dus81mwa5sfry"]
 
-[ext_resource type="Texture2D" uid="uid://btmqqfmrsnrq0" path="res://Ships/Sprites/green_laser_sprite.png" id="1_8ckxr"]
 [ext_resource type="Script" uid="uid://bd2v2j7vjqc11" path="res://Ships/Projectiles/projectile.gd" id="1_hso3b"]
+[ext_resource type="Texture2D" uid="uid://bj37fjwo7u6hq" path="res://Ships/Sprites/green_laser_sprite-sheet.png" id="2_1avis"]
+[ext_resource type="Texture2D" uid="uid://dl3fue4qt2o1n" path="res://Ships/Sprites/green laser collision.png" id="2_3o14r"]
 [ext_resource type="AudioStream" uid="uid://cfk0lcsn4r3l2" path="res://Ships/Sounds/laserShoot.wav" id="3_dnfti"]
 [ext_resource type="AudioStream" uid="uid://bkvnvc1aey552" path="res://Ships/Sounds/laserConnect.wav" id="4_1avis"]
 
-[sub_resource type="SegmentShape2D" id="SegmentShape2D_hso3b"]
-b = Vector2(5, 0)
+[sub_resource type="AtlasTexture" id="AtlasTexture_6wg0l"]
+atlas = ExtResource("2_3o14r")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pdfh2"]
+atlas = ExtResource("2_3o14r")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6umeq"]
+atlas = ExtResource("2_3o14r")
+region = Rect2(32, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_24vck"]
+atlas = ExtResource("2_3o14r")
+region = Rect2(48, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xhfae"]
+atlas = ExtResource("2_3o14r")
+region = Rect2(64, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3o14r"]
+atlas = ExtResource("2_1avis")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_23wpe"]
+atlas = ExtResource("2_1avis")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6yv8r"]
+atlas = ExtResource("2_1avis")
+region = Rect2(32, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_agtvo"]
+atlas = ExtResource("2_1avis")
+region = Rect2(48, 0, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_6wg0l"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6wg0l")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pdfh2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6umeq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_24vck")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xhfae")
+}],
+"loop": false,
+"name": &"collide",
+"speed": 30.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3o14r")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_23wpe")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6yv8r")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_agtvo")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_pdfh2"]
+size = Vector2(6, 5.69549)
 
 [node name="GreenLaserRoot" type="Area2D"]
 top_level = true
 collision_mask = 2
 script = ExtResource("1_hso3b")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+unique_name_in_owner = true
 position = Vector2(6, 0)
-texture = ExtResource("1_8ckxr")
-offset = Vector2(0, 0.5)
+sprite_frames = SubResource("SpriteFrames_6wg0l")
+animation = &"collide"
+autoplay = "default"
+frame = 4
+frame_progress = 1.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(3, 0)
 scale = Vector2(1, 0.351155)
-shape = SubResource("SegmentShape2D_hso3b")
+shape = SubResource("RectangleShape2D_pdfh2")
 
 [node name="FiredSound" type="AudioStreamPlayer2D" parent="."]
 unique_name_in_owner = true

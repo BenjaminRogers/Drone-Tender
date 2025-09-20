@@ -24,6 +24,8 @@ func _physics_process(delta: float) -> void:
 func _on_body_entered(body: Node2D) -> void:
 	hit_target.emit()
 	is_moving = false
-	queue_free()
 	if body.has_method("take_damage"):
 		body.take_damage(damage)
+	%AnimatedSprite2D.play("collide")
+	await %AnimatedSprite2D.animation_finished
+	queue_free()

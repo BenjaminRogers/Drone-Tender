@@ -31,6 +31,16 @@ offset_right = 1152.0
 offset_bottom = 648.0
 texture = ExtResource("1_s0jy6")
 
+[node name="SpaceStation1Root" parent="." instance=ExtResource("3_oy40b")]
+position = Vector2(471, 313)
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="SpaceStation1Root"]
+unique_name_in_owner = true
+
+[node name="Sprite2D2" type="Sprite2D" parent="SpaceStation1Root"]
+texture = ExtResource("5_8rc3q")
+script = ExtResource("6_i3h8e")
+
 [node name="Player" parent="." instance=ExtResource("1_0pcov")]
 unique_name_in_owner = true
 position = Vector2(574, 320)
@@ -41,16 +51,6 @@ curve = SubResource("Curve2D_2lxla")
 [node name="PathFollow2D" type="PathFollow2D" parent="Player/Path2D"]
 unique_name_in_owner = true
 position = Vector2(-1624, -793)
-
-[node name="SpaceStation1Root" parent="." instance=ExtResource("3_oy40b")]
-position = Vector2(471, 313)
-
-[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="SpaceStation1Root"]
-unique_name_in_owner = true
-
-[node name="Sprite2D2" type="Sprite2D" parent="SpaceStation1Root"]
-texture = ExtResource("5_8rc3q")
-script = ExtResource("6_i3h8e")
 
 [node name="AsteroidContainer" type="Node2D" parent="."]
 unique_name_in_owner = true
