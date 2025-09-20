@@ -5,7 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://453v3dpe6klu" path="res://Levels/Sprites/space_background_1.png" id="1_s0jy6"]
 [ext_resource type="PackedScene" uid="uid://biqrgq620lk12" path="res://Levels/Objects/Scenes/space_station_1_root.tscn" id="3_oy40b"]
 [ext_resource type="PackedScene" uid="uid://b2776j8ftk1i5" path="res://Levels/Objects/Scenes/tiny_asteroid.tscn" id="4_wpq67"]
-[ext_resource type="Texture2D" uid="uid://cmcgqoc3ks24n" path="res://Levels/Objects/Sprites/ScreenEdgeArrowSprite.png" id="5_8rc3q"]
+[ext_resource type="Texture2D" uid="uid://cqxen2ykv7gwi" path="res://Levels/Objects/Sprites/ScreenEdgeArrowSprite2.png" id="5_8rc3q"]
 [ext_resource type="PackedScene" uid="uid://b0haaatn34hdh" path="res://Levels/Objects/Scenes/small_asteroid_root.tscn" id="5_w8bc6"]
 [ext_resource type="Script" uid="uid://dju1t6ewadxk0" path="res://Levels/station_marker.gd" id="6_i3h8e"]
 

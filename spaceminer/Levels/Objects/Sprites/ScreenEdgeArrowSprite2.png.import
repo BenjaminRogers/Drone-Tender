@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://xnw30k6ydp5g"
-path="res://.godot/imported/Spacestation1Sprite-sheet.png-a9f419a08290e95d8a2485e87f6d5ec7.ctex"
+uid="uid://cqxen2ykv7gwi"
+path="res://.godot/imported/ScreenEdgeArrowSprite2.png-c9c1045f1a6c7d82cb14d3d04cb14efc.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Levels/Objects/Sprites/Spacestation1Sprite-sheet.png"
-dest_files=["res://.godot/imported/Spacestation1Sprite-sheet.png-a9f419a08290e95d8a2485e87f6d5ec7.ctex"]
+source_file="res://Levels/Objects/Sprites/ScreenEdgeArrowSprite2.png"
+dest_files=["res://.godot/imported/ScreenEdgeArrowSprite2.png-c9c1045f1a6c7d82cb14d3d04cb14efc.ctex"]
 
 [params]
 

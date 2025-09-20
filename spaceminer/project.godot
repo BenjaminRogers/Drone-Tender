@@ -10,10 +10,10 @@ config_version=5
 
 [application]
 
-config/name="SpaceMiner"
+config/name="Space Miner"
 run/main_scene="uid://boomig0fm0263"
 config/features=PackedStringArray("4.4", "Forward Plus")
-config/icon="res://icon.svg"
+config/icon="uid://dhqwym60sgvbu"
 
 [autoload]
 

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cmcgqoc3ks24n"
-path="res://.godot/imported/ScreenEdgeArrowSprite.png-60c0c3d4c2dd1b57e2b6eedd6f1ad31b.ctex"
+uid="uid://dhqwym60sgvbu"
+path="res://.godot/imported/SpaceMinerIcon.png-ef1db36de25116053cba00a8e0fc0d56.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Levels/Objects/Sprites/ScreenEdgeArrowSprite.png"
-dest_files=["res://.godot/imported/ScreenEdgeArrowSprite.png-60c0c3d4c2dd1b57e2b6eedd6f1ad31b.ctex"]
+source_file="res://SpaceMinerIcon.png"
+dest_files=["res://.godot/imported/SpaceMinerIcon.png-ef1db36de25116053cba00a8e0fc0d56.ctex"]
 
 [params]
 

@@ -20,6 +20,7 @@ func game_over() -> void:
 	%AnimatedSprite2D.play("death")
 	await %AnimatedSprite2D.animation_finished
 	%GameOverScreen.show()
+	%ResetButton.grab_focus()
 	get_tree().paused = true
 func update_cargo_ui() -> void:
 	%CargoLabel.text = str(current_weight, " / ", max_weight)
