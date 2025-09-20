@@ -9,9 +9,9 @@ func buy_resources(object: Node2D):
 			if value_dict.has(key):
 				total_credits += received_dict[key] * value_dict[key]
 		object.credits += total_credits
-		await FloatingText.display_text(str("Credits earned: ", total_credits),object.global_position, "GOLD")
 		object.update_credits()
 		object.clear_inventory()
+		await FloatingText.display_text(str("Credits earned: ", total_credits),object.global_position, "GOLD")
 	if object.has_method("repair"):
 		if object.current_health < object.max_health:
 			object.repair(repair_cost)

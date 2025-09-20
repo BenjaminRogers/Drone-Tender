@@ -16,6 +16,13 @@ var current_weight: int = 0
 var inventory: Dictionary[String, int]
 var collision_leeway: float = 100.0
 var collision_damage: float = .05
+func game_over() -> void:
+	%AnimatedSprite2D.play("death")
+	await %AnimatedSprite2D.animation_finished
+	%GameOverScreen.show()
+	get_tree().paused = true
+func update_cargo_ui() -> void:
+	%CargoLabel.text = str(current_weight, " / ", max_weight)
 func repair(cost: float) -> void:
 	var repairs_needed = max_health - current_health
 	var total_cost = snappedf(repairs_needed * cost, .01)
@@ -43,12 +50,15 @@ func take_collision_damage() -> void:
 		FloatingText.display_text((collision_speed * collision_damage), global_position, "RED")
 		current_health -= collision_speed * collision_damage
 		%HealthBar.value = current_health
+		if current_health <= 0:
+			game_over()
 func update_credits() -> void:
 	%CreditsLabel.text = str(credits)
 func clear_inventory() -> void:
 	inventory = {}
 	current_weight = 0
 	%InventoryUI.update_ui(inventory)
+	update_cargo_ui()
 func add_to_inventory(resource_node):
 	var additional_value = resource_node.amount
 	if additional_value + current_weight > max_weight:
@@ -62,6 +72,7 @@ func add_to_inventory(resource_node):
 		FloatingText.display_text(str(resource_node.resource_type, " ", resource_node.amount), global_position)
 		%InventoryUI.update_ui(inventory)
 		%ResourceCollectionSound.play()
+		update_cargo_ui()
 	elif not inventory.has(resource_node.resource_type):
 		inventory.set(resource_node.resource_type, additional_value)
 		current_weight += resource_node.amount
@@ -69,6 +80,7 @@ func add_to_inventory(resource_node):
 		FloatingText.display_text(str(resource_node.resource_type, " ", resource_node.amount), global_position)
 		%InventoryUI.update_ui(inventory)
 		%ResourceCollectionSound.play()
+		update_cargo_ui()
 func fire_projectile(projectile: Resource) -> void:
 	var projectile_instance = projectile.instantiate()
 	%AimOrigin.add_child(projectile_instance)

@@ -11,6 +11,7 @@ func _ready() -> void:
 	set_contact_monitor(true)
 	set_max_contacts_reported(1)
 	resource_type = Asteroid.randomize_resource()
+	apply_force(rand_movement, rand_movement)
 func _physics_process(delta: float) -> void:
 	if get_contact_count() > 0:
 		has_been_hit = true

@@ -1,7 +1,8 @@
-[gd_scene load_steps=10 format=3 uid="uid://bel4yswwdqdmk"]
+[gd_scene load_steps=19 format=3 uid="uid://bel4yswwdqdmk"]
 
 [ext_resource type="Script" uid="uid://dlnbf0u4v7t0w" path="res://Ships/ship.gd" id="1_386x3"]
 [ext_resource type="Texture2D" uid="uid://c2sf77v7jdvqj" path="res://Ships/Sprites/Ship1Sprite.png" id="2_3j2h8"]
+[ext_resource type="Texture2D" uid="uid://li5gr3t817iu" path="res://Ships/Sprites/Ship1DeathSprite-sheet.png" id="2_sd0gl"]
 [ext_resource type="Script" uid="uid://dubknthuk1s2s" path="res://Ships/inventory_ui.gd" id="3_oqpsa"]
 [ext_resource type="Script" uid="uid://bxfrei3wy4pyx" path="res://Ships/pause_menu.gd" id="4_cbbn5"]
 [ext_resource type="AudioStream" uid="uid://cfk0lcsn4r3l2" path="res://Ships/Sounds/laserShoot.wav" id="4_jdu3k"]
@@ -9,14 +10,84 @@
 [ext_resource type="AudioStream" uid="uid://8754tfwdt2db" path="res://Ships/Sounds/Collision.wav" id="7_lm01v"]
 [ext_resource type="AudioStream" uid="uid://mjs8lbkgghsx" path="res://Ships/Sounds/pickupResource.wav" id="8_fhuo7"]
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_py5qg"]
+atlas = ExtResource("2_sd0gl")
+region = Rect2(0, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nk8yu"]
+atlas = ExtResource("2_sd0gl")
+region = Rect2(48, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lvn34"]
+atlas = ExtResource("2_sd0gl")
+region = Rect2(96, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bwg6e"]
+atlas = ExtResource("2_sd0gl")
+region = Rect2(144, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_131lr"]
+atlas = ExtResource("2_sd0gl")
+region = Rect2(192, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_v4mxd"]
+atlas = ExtResource("2_sd0gl")
+region = Rect2(240, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_a3fj6"]
+atlas = ExtResource("2_sd0gl")
+region = Rect2(288, 0, 48, 48)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_fhuo7"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_py5qg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nk8yu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lvn34")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bwg6e")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_131lr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_v4mxd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_a3fj6")
+}],
+"loop": false,
+"name": &"death",
+"speed": 1.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_3j2h8")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
 [sub_resource type="CircleShape2D" id="CircleShape2D_3j2h8"]
 
 [node name="Ship1Root" type="CharacterBody2D"]
 collision_mask = 0
 script = ExtResource("1_386x3")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-texture = ExtResource("2_3j2h8")
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+unique_name_in_owner = true
+sprite_frames = SubResource("SpriteFrames_fhuo7")
+animation = &"death"
+autoplay = "default"
+frame = 6
+frame_progress = 1.0
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
 position = Vector2(15, 0)
@@ -77,13 +148,14 @@ layout_mode = 2
 
 [node name="PanelContainer" type="PanelContainer" parent="HUDLayer"]
 offset_left = 1026.0
-offset_top = 495.0
+offset_top = 493.0
 offset_right = 1179.0
-offset_bottom = 646.0
+offset_bottom = 604.0
 scale = Vector2(0.812, 1)
 
 [node name="MarginContainer" type="MarginContainer" parent="HUDLayer/PanelContainer"]
 layout_mode = 2
+theme_override_constants/margin_left = 5
 
 [node name="InventoryUI" type="VBoxContainer" parent="HUDLayer/PanelContainer/MarginContainer"]
 unique_name_in_owner = true
@@ -140,6 +212,50 @@ alignment = 1
 unique_name_in_owner = true
 layout_mode = 2
 text = "Resume"
+
+[node name="PanelContainer4" type="PanelContainer" parent="HUDLayer"]
+offset_left = 1026.0
+offset_top = 606.0
+offset_right = 1151.0
+offset_bottom = 646.0
+
+[node name="MarginContainer" type="MarginContainer" parent="HUDLayer/PanelContainer4"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HUDLayer/PanelContainer4/MarginContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="HUDLayer/PanelContainer4/MarginContainer/HBoxContainer"]
+layout_mode = 2
+text = "Cargo:"
+
+[node name="CargoLabel" type="Label" parent="HUDLayer/PanelContainer4/MarginContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "0/100"
+
+[node name="GameOverScreen" type="Control" parent="HUDLayer"]
+unique_name_in_owner = true
+process_mode = 3
+visible = false
+layout_mode = 3
+anchors_preset = 0
+offset_left = 528.0
+offset_top = 306.0
+offset_right = 568.0
+offset_bottom = 346.0
+
+[node name="PanelContainer" type="PanelContainer" parent="HUDLayer/GameOverScreen"]
+layout_mode = 2
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="MarginContainer" type="MarginContainer" parent="HUDLayer/GameOverScreen/PanelContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="HUDLayer/GameOverScreen/PanelContainer/MarginContainer"]
+layout_mode = 2
+text = "GAME OVER"
 
 [node name="FiredSound" type="AudioStreamPlayer2D" parent="."]
 unique_name_in_owner = true
