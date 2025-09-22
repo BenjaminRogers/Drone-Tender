@@ -10,6 +10,7 @@ height = 22.0
 [node name="SmallAsteroidRoot" type="RigidBody2D"]
 collision_layer = 2
 collision_mask = 7
+mass = 5.0
 gravity_scale = 0.0
 script = ExtResource("1_8rbqu")
 

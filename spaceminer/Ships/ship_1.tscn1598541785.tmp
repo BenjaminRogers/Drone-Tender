@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://bel4yswwdqdmk"]
+[gd_scene load_steps=21 format=3 uid="uid://bel4yswwdqdmk"]
 
 [ext_resource type="Script" uid="uid://dlnbf0u4v7t0w" path="res://Ships/ship.gd" id="1_386x3"]
 [ext_resource type="Texture2D" uid="uid://c2sf77v7jdvqj" path="res://Ships/Sprites/Ship1Sprite.png" id="2_3j2h8"]
@@ -10,7 +10,6 @@
 [ext_resource type="Script" uid="uid://pn02oejru5yu" path="res://Ships/game_over_screen.gd" id="6_py5qg"]
 [ext_resource type="AudioStream" uid="uid://8754tfwdt2db" path="res://Ships/Sounds/Collision.wav" id="7_lm01v"]
 [ext_resource type="AudioStream" uid="uid://mjs8lbkgghsx" path="res://Ships/Sounds/pickupResource.wav" id="8_fhuo7"]
-[ext_resource type="Script" uid="uid://m5ssvfa4se47" path="res://Ships/grabber.gd" id="11_nk8yu"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_py5qg"]
 atlas = ExtResource("2_sd0gl")
@@ -81,9 +80,6 @@ animations = [{
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_py5qg"]
 size = Vector2(4, 18)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_nk8yu"]
-size = Vector2(4, 14)
 
 [node name="Ship1Root" type="CharacterBody2D"]
 collision_mask = 0
@@ -331,29 +327,6 @@ shape = SubResource("RectangleShape2D_py5qg")
 node_a = NodePath("../../Segment")
 node_b = NodePath("..")
 
-[node name="End" type="RigidBody2D" parent="TentacleRoot"]
-unique_name_in_owner = true
-position = Vector2(-64, 40)
-rotation = 1.09774
-collision_mask = 7
-contact_monitor = true
-max_contacts_reported = 1
-script = ExtResource("11_nk8yu")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="TentacleRoot/End"]
-shape = SubResource("RectangleShape2D_nk8yu")
-
-[node name="PinJoint2D" type="PinJoint2D" parent="TentacleRoot/End"]
-position = Vector2(0.0630982, -6.70791)
-node_a = NodePath("../../Segment2")
-node_b = NodePath("..")
-
-[node name="GrabJoint" type="PinJoint2D" parent="TentacleRoot/End"]
-unique_name_in_owner = true
-position = Vector2(-0.0630982, 6.70791)
-node_a = NodePath("..")
-
 [connection signal="body_entered" from="CollectionArea" to="." method="add_to_inventory"]
 [connection signal="pressed" from="HUDLayer/PauseMenu/PanelContainer/MarginContainer/VBoxContainer/ResumeButton" to="HUDLayer/PauseMenu" method="unpause"]
 [connection signal="pressed" from="HUDLayer/GameOverScreen/PanelContainer/MarginContainer/VBoxContainer/ResetButton" to="HUDLayer/GameOverScreen" method="_on_reset_button_pressed"]
-[connection signal="body_entered" from="TentacleRoot/End" to="TentacleRoot/End" method="_on_body_entered"]
