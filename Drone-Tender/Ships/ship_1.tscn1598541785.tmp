@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://bel4yswwdqdmk"]
+[gd_scene load_steps=21 format=3 uid="uid://bel4yswwdqdmk"]
 
 [ext_resource type="Script" uid="uid://dlnbf0u4v7t0w" path="res://Ships/ship.gd" id="1_386x3"]
 [ext_resource type="Texture2D" uid="uid://c2sf77v7jdvqj" path="res://Ships/Sprites/Ship1Sprite.png" id="2_3j2h8"]
@@ -78,6 +78,9 @@ animations = [{
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_3j2h8"]
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_py5qg"]
+size = Vector2(4, 18)
+
 [node name="Ship1Root" type="CharacterBody2D"]
 collision_mask = 0
 script = ExtResource("1_386x3")
@@ -85,10 +88,7 @@ script = ExtResource("1_386x3")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 unique_name_in_owner = true
 sprite_frames = SubResource("SpriteFrames_fhuo7")
-animation = &"death"
 autoplay = "default"
-frame = 6
-frame_progress = 1.0
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
 position = Vector2(15, 0)
@@ -282,6 +282,50 @@ stream = ExtResource("7_lm01v")
 [node name="ResourceCollectionSound" type="AudioStreamPlayer2D" parent="."]
 unique_name_in_owner = true
 stream = ExtResource("8_fhuo7")
+
+[node name="TentacleRoot" type="Node2D" parent="."]
+
+[node name="Base" type="RigidBody2D" parent="TentacleRoot"]
+position = Vector2(-13, 13)
+collision_mask = 7
+mass = 150.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="TentacleRoot/Base"]
+position = Vector2(-8, 4)
+rotation = 1.08946
+shape = SubResource("RectangleShape2D_py5qg")
+
+[node name="BaseJoint" type="PinJoint2D" parent="TentacleRoot/Base"]
+node_a = NodePath("..")
+node_b = NodePath("../../..")
+
+[node name="Segment" type="RigidBody2D" parent="TentacleRoot"]
+position = Vector2(-28, 21)
+collision_mask = 7
+mass = 150.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="TentacleRoot/Segment"]
+position = Vector2(-8, 4)
+rotation = 1.08946
+shape = SubResource("RectangleShape2D_py5qg")
+
+[node name="PinJoint2D" type="PinJoint2D" parent="TentacleRoot/Segment"]
+node_a = NodePath("../../Base")
+node_b = NodePath("..")
+
+[node name="Segment2" type="RigidBody2D" parent="TentacleRoot"]
+position = Vector2(-43, 29)
+collision_mask = 7
+mass = 150.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="TentacleRoot/Segment2"]
+position = Vector2(-8, 4)
+rotation = 1.08946
+shape = SubResource("RectangleShape2D_py5qg")
+
+[node name="PinJoint2D" type="PinJoint2D" parent="TentacleRoot/Segment2"]
+node_a = NodePath("../../Segment")
+node_b = NodePath("..")
 
 [connection signal="body_entered" from="CollectionArea" to="." method="add_to_inventory"]
 [connection signal="pressed" from="HUDLayer/PauseMenu/PanelContainer/MarginContainer/VBoxContainer/ResumeButton" to="HUDLayer/PauseMenu" method="unpause"]

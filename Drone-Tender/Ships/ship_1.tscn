@@ -1,0 +1,359 @@
+[gd_scene load_steps=23 format=3 uid="uid://bel4yswwdqdmk"]
+
+[ext_resource type="Script" uid="uid://dlnbf0u4v7t0w" path="res://Ships/ship.gd" id="1_386x3"]
+[ext_resource type="Texture2D" uid="uid://c2sf77v7jdvqj" path="res://Ships/Sprites/Ship1Sprite.png" id="2_3j2h8"]
+[ext_resource type="Texture2D" uid="uid://li5gr3t817iu" path="res://Ships/Sprites/Ship1DeathSprite-sheet.png" id="2_sd0gl"]
+[ext_resource type="Script" uid="uid://dubknthuk1s2s" path="res://Ships/inventory_ui.gd" id="3_oqpsa"]
+[ext_resource type="Script" uid="uid://bxfrei3wy4pyx" path="res://Ships/pause_menu.gd" id="4_cbbn5"]
+[ext_resource type="AudioStream" uid="uid://cfk0lcsn4r3l2" path="res://Ships/Sounds/laserShoot.wav" id="4_jdu3k"]
+[ext_resource type="AudioStream" uid="uid://bkvnvc1aey552" path="res://Ships/Sounds/laserConnect.wav" id="4_p2guy"]
+[ext_resource type="Script" uid="uid://pn02oejru5yu" path="res://Ships/game_over_screen.gd" id="6_py5qg"]
+[ext_resource type="AudioStream" uid="uid://8754tfwdt2db" path="res://Ships/Sounds/Collision.wav" id="7_lm01v"]
+[ext_resource type="AudioStream" uid="uid://mjs8lbkgghsx" path="res://Ships/Sounds/pickupResource.wav" id="8_fhuo7"]
+[ext_resource type="Script" uid="uid://m5ssvfa4se47" path="res://Ships/grabber.gd" id="11_nk8yu"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_py5qg"]
+atlas = ExtResource("2_sd0gl")
+region = Rect2(0, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nk8yu"]
+atlas = ExtResource("2_sd0gl")
+region = Rect2(48, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lvn34"]
+atlas = ExtResource("2_sd0gl")
+region = Rect2(96, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bwg6e"]
+atlas = ExtResource("2_sd0gl")
+region = Rect2(144, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_131lr"]
+atlas = ExtResource("2_sd0gl")
+region = Rect2(192, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_v4mxd"]
+atlas = ExtResource("2_sd0gl")
+region = Rect2(240, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_a3fj6"]
+atlas = ExtResource("2_sd0gl")
+region = Rect2(288, 0, 48, 48)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_fhuo7"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_py5qg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nk8yu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lvn34")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bwg6e")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_131lr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_v4mxd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_a3fj6")
+}],
+"loop": false,
+"name": &"death",
+"speed": 1.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_3j2h8")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_3j2h8"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_py5qg"]
+size = Vector2(4, 18)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_nk8yu"]
+size = Vector2(4, 14)
+
+[node name="Ship1Root" type="CharacterBody2D"]
+collision_mask = 0
+script = ExtResource("1_386x3")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+unique_name_in_owner = true
+sprite_frames = SubResource("SpriteFrames_fhuo7")
+autoplay = "default"
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+position = Vector2(15, 0)
+polygon = PackedVector2Array(0, 0, -30, 15, -22, 0, -30, -15)
+
+[node name="Camera2D" type="Camera2D" parent="."]
+
+[node name="AimOrigin" type="Marker2D" parent="."]
+unique_name_in_owner = true
+position = Vector2(16, 0)
+
+[node name="CollectionArea" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CollectionArea"]
+position = Vector2(10, 0)
+shape = SubResource("CircleShape2D_3j2h8")
+
+[node name="HUDLayer" type="CanvasLayer" parent="."]
+unique_name_in_owner = true
+
+[node name="PanelContainer3" type="PanelContainer" parent="HUDLayer"]
+offset_left = 1.0
+offset_top = 592.0
+offset_right = 108.0
+offset_bottom = 646.0
+
+[node name="MarginContainer" type="MarginContainer" parent="HUDLayer/PanelContainer3"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HUDLayer/PanelContainer3/MarginContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="HUDLayer/PanelContainer3/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="HUDLayer/PanelContainer3/MarginContainer/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+text = "Hull: "
+
+[node name="HealthBar" type="ProgressBar" parent="HUDLayer/PanelContainer3/MarginContainer/VBoxContainer/HBoxContainer2"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+value = 100.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HUDLayer/PanelContainer3/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="HUDLayer/PanelContainer3/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "Speed: "
+
+[node name="Spedometer" type="Label" parent="HUDLayer/PanelContainer3/MarginContainer/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="HUDLayer"]
+offset_left = 1026.0
+offset_top = 493.0
+offset_right = 1179.0
+offset_bottom = 604.0
+scale = Vector2(0.812, 1)
+
+[node name="MarginContainer" type="MarginContainer" parent="HUDLayer/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 5
+
+[node name="InventoryUI" type="VBoxContainer" parent="HUDLayer/PanelContainer/MarginContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+script = ExtResource("3_oqpsa")
+
+[node name="PanelContainer2" type="PanelContainer" parent="HUDLayer"]
+offset_left = 1026.0
+offset_top = 466.0
+offset_right = 1179.0
+offset_bottom = 491.0
+scale = Vector2(0.812, 1)
+
+[node name="MarginContainer" type="MarginContainer" parent="HUDLayer/PanelContainer2"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HUDLayer/PanelContainer2/MarginContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="HUDLayer/PanelContainer2/MarginContainer/HBoxContainer"]
+layout_mode = 2
+text = "Credits: "
+
+[node name="CreditsLabel" type="Label" parent="HUDLayer/PanelContainer2/MarginContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "0.0"
+
+[node name="PauseMenu" type="Control" parent="HUDLayer"]
+unique_name_in_owner = true
+process_mode = 3
+visible = false
+layout_mode = 3
+anchors_preset = 0
+offset_left = 553.0
+offset_top = 306.0
+offset_right = 593.0
+offset_bottom = 346.0
+script = ExtResource("4_cbbn5")
+
+[node name="PanelContainer" type="PanelContainer" parent="HUDLayer/PauseMenu"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="MarginContainer" type="MarginContainer" parent="HUDLayer/PauseMenu/PanelContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HUDLayer/PauseMenu/PanelContainer/MarginContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="ResumeButton" type="Button" parent="HUDLayer/PauseMenu/PanelContainer/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Resume"
+
+[node name="PanelContainer4" type="PanelContainer" parent="HUDLayer"]
+offset_left = 1026.0
+offset_top = 606.0
+offset_right = 1151.0
+offset_bottom = 646.0
+
+[node name="MarginContainer" type="MarginContainer" parent="HUDLayer/PanelContainer4"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HUDLayer/PanelContainer4/MarginContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="HUDLayer/PanelContainer4/MarginContainer/HBoxContainer"]
+layout_mode = 2
+text = "Cargo:"
+
+[node name="CargoLabel" type="Label" parent="HUDLayer/PanelContainer4/MarginContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "0/100"
+
+[node name="GameOverScreen" type="Control" parent="HUDLayer"]
+unique_name_in_owner = true
+process_mode = 3
+visible = false
+layout_mode = 3
+anchors_preset = 0
+offset_left = 528.0
+offset_top = 371.0
+offset_right = 568.0
+offset_bottom = 411.0
+script = ExtResource("6_py5qg")
+
+[node name="PanelContainer" type="PanelContainer" parent="HUDLayer/GameOverScreen"]
+layout_mode = 2
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="MarginContainer" type="MarginContainer" parent="HUDLayer/GameOverScreen/PanelContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HUDLayer/GameOverScreen/PanelContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="HUDLayer/GameOverScreen/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "GAME OVER"
+
+[node name="ResetButton" type="Button" parent="HUDLayer/GameOverScreen/PanelContainer/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Reset"
+
+[node name="FiredSound" type="AudioStreamPlayer2D" parent="."]
+unique_name_in_owner = true
+stream = ExtResource("4_jdu3k")
+
+[node name="ConnectSound" type="AudioStreamPlayer2D" parent="."]
+unique_name_in_owner = true
+stream = ExtResource("4_p2guy")
+
+[node name="CollisionSound" type="AudioStreamPlayer2D" parent="."]
+unique_name_in_owner = true
+stream = ExtResource("7_lm01v")
+
+[node name="ResourceCollectionSound" type="AudioStreamPlayer2D" parent="."]
+unique_name_in_owner = true
+stream = ExtResource("8_fhuo7")
+
+[node name="TentacleRoot" type="Node2D" parent="."]
+
+[node name="Base" type="RigidBody2D" parent="TentacleRoot"]
+position = Vector2(-13, 13)
+collision_mask = 7
+mass = 150.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="TentacleRoot/Base"]
+position = Vector2(-8, 4)
+rotation = 1.08946
+shape = SubResource("RectangleShape2D_py5qg")
+
+[node name="BaseJoint" type="PinJoint2D" parent="TentacleRoot/Base"]
+node_a = NodePath("..")
+node_b = NodePath("../../..")
+
+[node name="Segment" type="RigidBody2D" parent="TentacleRoot"]
+position = Vector2(-28, 21)
+collision_mask = 7
+mass = 150.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="TentacleRoot/Segment"]
+position = Vector2(-8, 4)
+rotation = 1.08946
+shape = SubResource("RectangleShape2D_py5qg")
+
+[node name="PinJoint2D" type="PinJoint2D" parent="TentacleRoot/Segment"]
+node_a = NodePath("../../Base")
+node_b = NodePath("..")
+
+[node name="Segment2" type="RigidBody2D" parent="TentacleRoot"]
+position = Vector2(-43, 29)
+collision_mask = 7
+mass = 150.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="TentacleRoot/Segment2"]
+position = Vector2(-8, 4)
+rotation = 1.08946
+shape = SubResource("RectangleShape2D_py5qg")
+
+[node name="PinJoint2D" type="PinJoint2D" parent="TentacleRoot/Segment2"]
+node_a = NodePath("../../Segment")
+node_b = NodePath("..")
+
+[node name="End" type="RigidBody2D" parent="TentacleRoot"]
+unique_name_in_owner = true
+position = Vector2(-64, 40)
+rotation = 1.09774
+collision_mask = 7
+contact_monitor = true
+max_contacts_reported = 1
+script = ExtResource("11_nk8yu")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="TentacleRoot/End"]
+shape = SubResource("RectangleShape2D_nk8yu")
+
+[node name="PinJoint2D" type="PinJoint2D" parent="TentacleRoot/End"]
+position = Vector2(0.0630982, -6.70791)
+node_a = NodePath("../../Segment2")
+node_b = NodePath("..")
+
+[node name="GrabJoint" type="PinJoint2D" parent="TentacleRoot/End"]
+unique_name_in_owner = true
+position = Vector2(-0.0630982, 6.70791)
+node_a = NodePath("..")
+
+[connection signal="body_entered" from="CollectionArea" to="." method="add_to_inventory"]
+[connection signal="pressed" from="HUDLayer/PauseMenu/PanelContainer/MarginContainer/VBoxContainer/ResumeButton" to="HUDLayer/PauseMenu" method="unpause"]
+[connection signal="pressed" from="HUDLayer/GameOverScreen/PanelContainer/MarginContainer/VBoxContainer/ResetButton" to="HUDLayer/GameOverScreen" method="_on_reset_button_pressed"]
+[connection signal="body_entered" from="TentacleRoot/End" to="TentacleRoot/End" method="_on_body_entered"]

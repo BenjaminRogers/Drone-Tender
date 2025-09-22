@@ -1,8 +1,9 @@
 class_name Ship extends CharacterBody2D
 var projectile_scene = preload("res://Ships/Projectiles/green_laser_root.tscn")
-const ROTATION_SPEED: float = 3
+const ROTATION_SPEED: float = .05
 const ACCELERATION: float = 5
 const LATERAL_SPEED: float = .1
+var inertial_rotation: float = 0
 var max_health: float = 100
 var current_health: float = 100
 var credits: float = 0.0
@@ -16,6 +17,8 @@ var current_weight: int = 0
 var inventory: Dictionary[String, int]
 var collision_leeway: float = 100.0
 var collision_damage: float = .05
+func toggle_grab_mode() -> void:
+	%End.toggle_grab_mode()
 func game_over() -> void:
 	%AnimatedSprite2D.play("death")
 	await %AnimatedSprite2D.animation_finished
@@ -96,21 +99,24 @@ func _physics_process(delta: float) -> void:
 	var rotation_input = Input.get_axis("rotate_left", "rotate_right")
 	var lateral_input = Input.get_axis("lateral_left", "lateral_right")
 	if Input.is_action_pressed("Stop"):
-		velocity = lerp(velocity, Vector2(0, 0), .03)
+		#velocity = lerp(velocity, Vector2(0, 0), .03)
+		inertial_rotation = lerp (inertial_rotation, 0.0, .03)
 	if direction_input:
 		velocity += transform.x * direction_input * ACCELERATION
 	if rotation_input and rotation_input != 0:
-		rotation += rotation_input * ROTATION_SPEED * delta
+		inertial_rotation += rotation_input * ROTATION_SPEED * delta
+		#inertial_rotation = rotation
 	if lateral_input:
 		velocity += transform.y * lateral_input * ACCELERATION
-	
+
+	rotation += inertial_rotation
 	#Determine ship's current global speed
 	speed_vector = abs(global_position - previous_position) / delta
 	actual_speed = round(abs(speed_vector.x + speed_vector.y))
 	previous_position = global_position
 	%Spedometer.text = str(actual_speed)
 	#
-	move_and_slide()
+	move_and_collide(velocity * delta)
 func pause() -> void:
 	get_tree().paused = true
 	%PauseMenu.paused()
@@ -125,3 +131,5 @@ func _input(event: InputEvent) -> void:
 		print(inventory)#FloatingText.display_text("Inventory full!", global_position)
 	if event.is_action_pressed("pause"):
 		pause()
+	if event.is_action_pressed("grab"):
+		toggle_grab_mode()
